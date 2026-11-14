@@ -211,13 +211,9 @@ if not DB_PASSWORD:
     st.stop()
 
 try:
-    connection = psycopg2.connect(
-        dbname="securewatch_db",
-        user="postgres",
-        password=DB_PASSWORD,
-        host="localhost",
-        port="5432"
-    )
+    DATABASE_URL = st.secrets["DATABASE_URL"]
+
+    connection = psycopg2.connect(DATABASE_URL)
 
     query = """
         SELECT ip_address, status, login_time
@@ -229,11 +225,9 @@ try:
     connection.close()
 
 except Exception as e:
-    st.error("Database connection failed.")
+    st.error("Cloud database connection failed.")
     st.code(str(e))
     st.stop()
-
-
 # ==========================================================
 # 7. LOGIN STATISTICS
 # ==========================================================
