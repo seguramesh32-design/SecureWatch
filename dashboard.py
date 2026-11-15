@@ -9,6 +9,7 @@ import pandas as pd
 import streamlit as st
 import ipaddress
 import requests
+import resend
 ABUSEIPDB_API_KEY = os.getenv("ABUSEIPDB_API_KEY")
 
 # ==========================================================
@@ -139,13 +140,13 @@ st.write("Database password loaded:", bool(DB_PASSWORD))
 def send_security_email(ip, attempts, severity):
 
     try:
-        msg = EmailMessage()
+        resend.api_key = st.secrets["RESEND_API_KEY"]
 
-        msg["Subject"] = "SecureWatch Security Alert"
-        msg["From"] = EMAIL_ADDRESS
-        msg["To"] = ALERT_EMAIL
-
-        msg.set_content(f"""
+        params = {
+            "from": "SecureWatch <onboarding@resend.dev>",
+            "to": [ALERT_EMAIL],
+            "subject": "SecureWatch Security Alert",
+            "text": f"""
 SECUREWATCH SECURITY ALERT
 
 Suspicious login activity detected!
@@ -157,22 +158,15 @@ Severity: {severity}
 Please investigate this activity.
 
 SecureWatch - Mini SOC Security Monitoring System
-""")
+"""
+        }
 
-        with smtplib.SMTP_SSL(
-            "smtp.gmail.com",
-            465,
-            timeout=30
-        ) as server:
-
-            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            server.send_message(msg)
+        resend.Emails.send(params)
 
         return True, "Security email sent successfully!"
 
     except Exception as e:
         return False, str(e)
-
 
 # ==========================================================
 # 4. TEST EMAIL BUTTON
