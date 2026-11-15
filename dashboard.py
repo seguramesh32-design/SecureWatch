@@ -313,16 +313,14 @@ if not ip_counts.empty:
 security_alerts = ip_counts.to_dict("records")
 # ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
-# ==========================================================
-
+# =========================================================
 try:
     history_connection = psycopg2.connect(
-        dbname="securewatch_db",
-        user="postgres",
-        password=DB_PASSWORD,
-        host="localhost",
-        port="5432"
+        st.secrets["DATABASE_URL"]
     )
+
+    history_cursor = history_connection.cursor()
+
 
     history_cursor = history_connection.cursor()
 
