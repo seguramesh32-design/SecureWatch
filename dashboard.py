@@ -321,9 +321,6 @@ try:
 
     history_cursor = history_connection.cursor()
 
-
-    history_cursor = history_connection.cursor()
-
     for alert in security_alerts:
 
         history_cursor.execute("""
@@ -339,6 +336,7 @@ try:
         ))
 
     history_connection.commit()
+
     history_cursor.close()
     history_connection.close()
 
@@ -347,7 +345,6 @@ try:
 except Exception as e:
     st.error("Alert history saving failed.")
     st.code(str(e))
-
 # ==========================================================
 # 10. AUTOMATIC HIGH SEVERITY EMAIL ALERTS
 # ==========================================================
