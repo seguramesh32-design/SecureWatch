@@ -385,13 +385,8 @@ for alert in security_alerts:
                 if success:
 
                     with psycopg2.connect(
-                        dbname="securewatch_db",
-                        user="postgres",
-                        password=DB_PASSWORD,
-                        host="localhost",
-                        port="5432"
-                    ) as connection:
-
+    st.secrets["DATABASE_URL"]
+) as connection:
                         with connection.cursor() as cursor:
 
                             cursor.execute("""
