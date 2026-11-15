@@ -136,16 +136,12 @@ st.write("Database password loaded:", bool(DB_PASSWORD))
 # ==========================================================
 # 3. EMAIL ALERT FUNCTION
 # ==========================================================
-
 def send_security_email(ip, attempts, severity):
-
-    if not EMAIL_ADDRESS or not EMAIL_PASSWORD or not ALERT_EMAIL:
-        return False, "Email settings are missing in .env."
 
     try:
         msg = EmailMessage()
 
-        msg["Subject"] = f"SecureWatch - {severity} Security Alert"
+        msg["Subject"] = "SecureWatch Security Alert"
         msg["From"] = EMAIL_ADDRESS
         msg["To"] = ALERT_EMAIL
 
@@ -163,8 +159,12 @@ Please investigate this activity.
 SecureWatch - Mini SOC Security Monitoring System
 """)
 
-        with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as server:
-            server.starttls()
+        with smtplib.SMTP_SSL(
+            "smtp.gmail.com",
+            465,
+            timeout=30
+        ) as server:
+
             server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
             server.send_message(msg)
 
