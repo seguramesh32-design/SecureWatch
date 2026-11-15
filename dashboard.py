@@ -365,13 +365,8 @@ for alert in security_alerts:
         try:
             # Check email status in PostgreSQL
             with psycopg2.connect(
-                dbname="securewatch_db",
-                user="postgres",
-                password=DB_PASSWORD,
-                host="localhost",
-                port="5432"
-            ) as connection:
-
+    st.secrets["DATABASE_URL"]
+) as connection:
                 with connection.cursor() as cursor:
 
                     cursor.execute("""
