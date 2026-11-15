@@ -549,17 +549,16 @@ try:
 )
 
     history_query = """
-        SELECT
-            id,
-            ip_address,
-            failed_attempts,
-            severity,
-            detected_at,
-            email_sent
-        FROM security_alert_history
-        ORDER BY detected_at DESC;
-    """
-
+    SELECT
+        id,
+        ip_address,
+        failed_attempts,
+        severity,
+        created_at,
+        email_sent
+    FROM security_alert_history
+    ORDER BY created_at DESC;
+"""
     history_df = pd.read_sql_query(
         history_query,
         history_connection
