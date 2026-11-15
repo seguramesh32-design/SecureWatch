@@ -545,12 +545,8 @@ st.header("📚 Persistent Security Alert History")
 
 try:
     history_connection = psycopg2.connect(
-        dbname="securewatch_db",
-        user="postgres",
-        password=DB_PASSWORD,
-        host="localhost",
-        port="5432"
-    )
+    st.secrets["DATABASE_URL"]
+)
 
     history_query = """
         SELECT
