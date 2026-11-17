@@ -305,6 +305,47 @@ if not ip_counts.empty:
     )
 
 security_alerts = ip_counts.to_dict("records")
+
+# ==========================================================
+# AUTOMATIC ABUSEIPDB IP REPUTATION CHECK
+# ==========================================================
+
+if not ip_counts.empty:
+
+    reputation_scores = []
+    reputation_reports = []
+    reputation_levels = []
+
+    for ip in ip_counts["IP Address"]:
+
+        reputation = check_ip_reputation(str(ip))
+
+        if "error" in reputation:
+
+            reputation_scores.append("Unavailable")
+            reputation_reports.append("Unavailable")
+            reputation_levels.append("Unknown")
+
+        else:
+
+            score = reputation.get("abuseConfidenceScore", 0)
+            reports = reputation.get("totalReports", 0)
+
+            if score >= 75:
+                level = "HIGH"
+            elif score >= 25:
+                level = "MEDIUM"
+            else:
+                level = "LOW"
+
+            reputation_scores.append(score)
+            reputation_reports.append(reports)
+            reputation_levels.append(level)
+
+    ip_counts["AbuseIPDB Score"] = reputation_scores
+    ip_counts["AbuseIPDB Reports"] = reputation_reports
+    ip_counts["IP Reputation"] = reputation_levels
+
 # ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
 # =========================================================
