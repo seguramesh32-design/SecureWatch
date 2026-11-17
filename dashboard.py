@@ -320,27 +320,36 @@ if not ip_counts.empty:
 
         reputation = check_ip_reputation(str(ip))
 
-        if "error" in reputation:
+        
+for ip in ip_counts["IP Address"]:
 
-            reputation_scores.append("Unavailable")
-            reputation_reports.append("Unavailable")
-            reputation_levels.append("Unknown")
+    reputation = check_ip_reputation(str(ip))
 
+    if "error" in reputation:
+
+        st.warning(
+            f"AbuseIPDB check failed for {ip}: {reputation['error']}"
+        )
+
+        reputation_scores.append("Unavailable")
+        reputation_reports.append("Unavailable")
+        reputation_levels.append("Unknown")
+
+    else:
+
+        score = reputation.get("abuseConfidenceScore", 0)
+        reports = reputation.get("totalReports", 0)
+
+        if score >= 75:
+            level = "HIGH"
+        elif score >= 25:
+            level = "MEDIUM"
         else:
+            level = "LOW"
 
-            score = reputation.get("abuseConfidenceScore", 0)
-            reports = reputation.get("totalReports", 0)
-
-            if score >= 75:
-                level = "HIGH"
-            elif score >= 25:
-                level = "MEDIUM"
-            else:
-                level = "LOW"
-
-            reputation_scores.append(score)
-            reputation_reports.append(reports)
-            reputation_levels.append(level)
+        reputation_scores.append(score)
+        reputation_reports.append(reports)
+        reputation_levels.append(level)
 
     ip_counts["AbuseIPDB Score"] = reputation_scores
     ip_counts["AbuseIPDB Reports"] = reputation_reports
