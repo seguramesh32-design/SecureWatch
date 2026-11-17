@@ -352,6 +352,51 @@ if not ip_counts.empty:
     ip_counts["IP Reputation"] = reputation_levels
 
 # ==========================================================
+# THREAT INTELLIGENCE SUMMARY
+# ==========================================================
+
+st.divider()
+st.header("🛡️ Threat Intelligence Summary")
+
+total_ips_checked = len(ip_counts)
+
+high_risk_ips = sum(
+    1 for level in reputation_levels if level == "HIGH"
+)
+
+medium_risk_ips = sum(
+    1 for level in reputation_levels if level == "MEDIUM"
+)
+
+low_risk_ips = sum(
+    1 for level in reputation_levels if level == "LOW"
+)
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total IPs Checked", total_ips_checked)
+col2.metric("HIGH Risk", high_risk_ips)
+col3.metric("MEDIUM Risk", medium_risk_ips)
+col4.metric("LOW Risk", low_risk_ips)
+
+st.subheader("IP Reputation Distribution")
+
+threat_data = pd.DataFrame({
+    "Threat Level": ["HIGH", "MEDIUM", "LOW"],
+    "IP Count": [
+        high_risk_ips,
+        medium_risk_ips,
+        low_risk_ips
+    ]
+})
+
+st.bar_chart(
+    threat_data,
+    x="Threat Level",
+    y="IP Count"
+)
+
+# ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
 # =========================================================
 try:
