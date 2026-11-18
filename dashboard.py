@@ -565,8 +565,22 @@ if not ip_counts.empty:
             filtered_alerts["Severity"] == severity_filter
         ]
 
+        # FIX MIXED ABUSEIPDB DATA TYPES
+
+    display_alerts = filtered_alerts.copy()
+
+    if "AbuseIPDB Score" in display_alerts.columns:
+        display_alerts["AbuseIPDB Score"] = (
+            display_alerts["AbuseIPDB Score"].astype(str)
+        )
+
+    if "AbuseIPDB Reports" in display_alerts.columns:
+        display_alerts["AbuseIPDB Reports"] = (
+            display_alerts["AbuseIPDB Reports"].astype(str)
+        )
+
     st.dataframe(
-        filtered_alerts,
+        display_alerts,
         hide_index=True,
         width="stretch"
     )
@@ -579,11 +593,6 @@ if not ip_counts.empty:
         file_name="SecureWatch_Security_Report.csv",
         mime="text/csv"
     )
-
-else:
-    st.info("No security alerts available.")
-
-
 # ==========================================================
 # 16. FOOTER
 # ==========================================================
