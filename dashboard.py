@@ -532,6 +532,60 @@ col3.metric("LOW Alerts", low_count)
 st.divider()
 st.header("📈 Login Analytics")
 
+# ==========================================================
+# ATTACK TIMELINE
+# ==========================================================
+
+st.divider()
+st.header("⏱️ Attack Timeline")
+
+if not df.empty:
+
+    timeline_df = df.copy()
+
+    timeline_df["login_time"] = pd.to_datetime(
+        timeline_df["login_time"],
+        errors="coerce"
+    )
+
+    failed_timeline = timeline_df[
+        timeline_df["status"].astype(str).str.lower() == "failed"
+    ].dropna(subset=["login_time"])
+
+    if not failed_timeline.empty:
+
+        daily_attacks = (
+            failed_timeline
+            .set_index("login_time")
+            .resample("D")
+            .size()
+            .reset_index(name="Failed Attempts")
+        )
+
+        st.subheader("Daily Failed Login Attempts")
+
+        st.line_chart(
+            daily_attacks,
+            x="login_time",
+            y="Failed Attempts"
+        )
+
+        st.subheader("Recent Failed Login Activity")
+
+        st.dataframe(
+            failed_timeline[
+                ["ip_address", "login_time"]
+            ].head(20),
+            hide_index=True,
+            width="stretch"
+        )
+
+    else:
+        st.info("No failed login activity found.")
+
+else:
+    st.info("No login history available.")
+
 analytics = pd.DataFrame({
     "Login Type": ["Failed", "Successful"],
     "Count": [int(failed_logins), int(successful_logins)]
