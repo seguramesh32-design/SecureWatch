@@ -630,7 +630,7 @@ try:
     if not history_df.empty:
         st.dataframe(
             history_df,
-            use_container_width=True
+            width="stretch"
         )
         st.success("Previous security alerts loaded successfully!")
     else:
