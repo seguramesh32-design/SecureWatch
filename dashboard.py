@@ -244,7 +244,6 @@ else:
 # ==========================================================
 # 8. FAILED LOGIN COUNTS BY IP
 # ==========================================================
-
 failed_df = df[
     df["status"].astype(str).str.lower() == "failed"
 ].copy()
@@ -282,6 +281,7 @@ else:
     )
 
 
+   
 # ==========================================================
 # 9. SECURITY SEVERITY
 # ==========================================================
@@ -305,6 +305,67 @@ if not ip_counts.empty:
     )
 
 security_alerts = ip_counts.to_dict("records")
+# ATTACK PATTERN DETECTION
+
+st.divider()
+st.header("🚨 Attack Pattern Detection")
+
+if not failed_df.empty:
+
+    attack_df = failed_df.copy()
+
+    attack_df["login_time"] = pd.to_datetime(
+        attack_df["login_time"],
+        errors="coerce"
+    )
+
+    attack_df = attack_df.dropna(
+        subset=["login_time"]
+    )
+
+    attack_patterns = []
+
+    for ip, group in attack_df.groupby("ip_address"):
+
+        group = group.sort_values("login_time")
+
+        five_minute_counts = (
+            group.set_index("login_time")["status"]
+            .rolling("5min")
+            .count()
+        )
+
+        max_attempts = int(five_minute_counts.max())
+
+        if max_attempts >= 5:
+
+            attack_patterns.append({
+                "IP Address": ip,
+                "Failed Attempts in 5 Minutes": max_attempts,
+                "Attack Type": "Possible Brute Force"
+            })
+
+    if attack_patterns:
+
+        attack_pattern_df = pd.DataFrame(
+            attack_patterns
+        )
+
+        st.warning("Possible brute-force attack detected!")
+
+        st.dataframe(
+            attack_pattern_df,
+            hide_index=True,
+            width="stretch"
+        )
+
+    else:
+        st.success(
+            "No brute-force attack pattern detected."
+        )
+
+else:
+    st.info("No failed login activity available.")
 # ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
 # =========================================================
