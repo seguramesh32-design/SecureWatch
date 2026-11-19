@@ -366,6 +366,97 @@ if not failed_df.empty:
 
 else:
     st.info("No failed login activity available.")
+
+
+# ==========================================================
+# AUTOMATIC ABUSEIPDB IP REPUTATION CHECK
+# ==========================================================
+
+if not ip_counts.empty:
+
+    reputation_scores = []
+    reputation_reports = []
+    reputation_levels = []
+
+    for ip in ip_counts["IP Address"]:
+
+        reputation = check_ip_reputation(str(ip))
+
+        if "error" in reputation:
+
+            st.warning(
+                f"AbuseIPDB check failed for {ip}: {reputation['error']}"
+            )
+
+            reputation_scores.append("Unavailable")
+            reputation_reports.append("Unavailable")
+            reputation_levels.append("Unknown")
+
+        else:
+
+            score = int(reputation.get("abuseConfidenceScore", 0))
+            reports = int(reputation.get("totalReports", 0))
+
+            if score >= 75:
+                level = "HIGH"
+            elif score >= 25:
+                level = "MEDIUM"
+            else:
+                level = "LOW"
+
+            reputation_scores.append(score)
+            reputation_reports.append(reports)
+            reputation_levels.append(level)
+
+    ip_counts["AbuseIPDB Score"] = reputation_scores
+    ip_counts["AbuseIPDB Reports"] = reputation_reports
+    ip_counts["IP Reputation"] = reputation_levels
+
+# ==========================================================
+# THREAT INTELLIGENCE SUMMARY
+# ==========================================================
+
+st.divider()
+st.header("🛡️ Threat Intelligence Summary")
+
+total_ips_checked = len(ip_counts)
+
+high_risk_ips = sum(
+    1 for level in reputation_levels if level == "HIGH"
+)
+
+medium_risk_ips = sum(
+    1 for level in reputation_levels if level == "MEDIUM"
+)
+
+low_risk_ips = sum(
+    1 for level in reputation_levels if level == "LOW"
+)
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total IPs Checked", total_ips_checked)
+col2.metric("HIGH Risk", high_risk_ips)
+col3.metric("MEDIUM Risk", medium_risk_ips)
+col4.metric("LOW Risk", low_risk_ips)
+
+st.subheader("IP Reputation Distribution")
+
+threat_data = pd.DataFrame({
+    "Threat Level": ["HIGH", "MEDIUM", "LOW"],
+    "IP Count": [
+        high_risk_ips,
+        medium_risk_ips,
+        low_risk_ips
+    ]
+})
+
+st.bar_chart(
+    threat_data,
+    x="Threat Level",
+    y="IP Count"
+)
+
 # ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
 # =========================================================
@@ -502,6 +593,60 @@ col3.metric("LOW Alerts", low_count)
 
 st.divider()
 st.header("📈 Login Analytics")
+
+# ==========================================================
+# ATTACK TIMELINE
+# ==========================================================
+
+st.divider()
+st.header("⏱️ Attack Timeline")
+
+if not df.empty:
+
+    timeline_df = df.copy()
+
+    timeline_df["login_time"] = pd.to_datetime(
+        timeline_df["login_time"],
+        errors="coerce"
+    )
+
+    failed_timeline = timeline_df[
+        timeline_df["status"].astype(str).str.lower() == "failed"
+    ].dropna(subset=["login_time"])
+
+    if not failed_timeline.empty:
+
+        daily_attacks = (
+            failed_timeline
+            .set_index("login_time")
+            .resample("D")
+            .size()
+            .reset_index(name="Failed Attempts")
+        )
+
+        st.subheader("Daily Failed Login Attempts")
+
+        st.line_chart(
+            daily_attacks,
+            x="login_time",
+            y="Failed Attempts"
+        )
+
+        st.subheader("Recent Failed Login Activity")
+
+        st.dataframe(
+            failed_timeline[
+                ["ip_address", "login_time"]
+            ].head(20),
+            hide_index=True,
+            width="stretch"
+        )
+
+    else:
+        st.info("No failed login activity found.")
+
+else:
+    st.info("No login history available.")
 
 analytics = pd.DataFrame({
     "Login Type": ["Failed", "Successful"],
