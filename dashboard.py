@@ -400,9 +400,6 @@ try:
 except Exception as e:
     st.error("Alert history saving failed.")
     st.code(str(e))
-# ==========================================================
-# 10. AUTOMATIC HIGH SEVERITY EMAIL ALERTS
-# ==========================================================
 
 
 # ==========================================================
@@ -420,8 +417,9 @@ for alert in security_alerts:
         try:
             # Check email status in PostgreSQL
             with psycopg2.connect(
-    st.secrets["DATABASE_URL"]
-) as connection:
+                st.secrets["DATABASE_URL"]
+            ) as connection:
+
                 with connection.cursor() as cursor:
 
                     cursor.execute("""
@@ -446,8 +444,9 @@ for alert in security_alerts:
                 if success:
 
                     with psycopg2.connect(
-    st.secrets["DATABASE_URL"]
-) as connection:
+                        st.secrets["DATABASE_URL"]
+                    ) as connection:
+
                         with connection.cursor() as cursor:
 
                             cursor.execute("""
@@ -464,9 +463,11 @@ for alert in security_alerts:
                     st.warning(f"Email failed for {ip}: {message}")
 
             elif result is not None and result[0] is True:
+
                 st.info(f"Duplicate email prevented for {ip}.")
 
         except Exception as e:
+
             st.error(f"Email tracking error for {ip}")
             st.code(str(e))
 
@@ -579,11 +580,6 @@ if not ip_counts.empty:
             display_alerts["AbuseIPDB Reports"].astype(str)
         )
 
-    st.dataframe(
-        display_alerts,
-        hide_index=True,
-        width="stretch"
-    )
 
     csv_data = filtered_alerts.to_csv(index=False).encode("utf-8")
 
