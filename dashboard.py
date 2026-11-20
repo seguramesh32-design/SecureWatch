@@ -163,6 +163,9 @@ DB_PASSWORD = env_data.get("DB_PASSWORD")
 ABUSEIPDB_API_KEY = env_data.get("ABUSEIPDB_API_KEY")
 print("AbuseIPDB API key loaded:", bool(ABUSEIPDB_API_KEY))
 st.title("🛡️ SecureWatch")
+
+
+
 st.subheader("Mini SOC Security Monitoring System")
 
 # Safe diagnostics: never print passwords or email addresses.
@@ -265,9 +268,11 @@ except Exception as e:
 # 7. LOGIN STATISTICS
 # ==========================================================
 
+
 total_logins = len(df)
 
 if total_logins > 0:
+
     failed_logins = (
         df["status"].astype(str).str.lower() == "failed"
     ).sum()
@@ -275,9 +280,25 @@ if total_logins > 0:
     successful_logins = (
         df["status"].astype(str).str.lower() == "success"
     ).sum()
+
 else:
     failed_logins = 0
     successful_logins = 0
+
+
+# ==========================================================
+# SOC OVERVIEW
+# ==========================================================
+
+st.divider()
+st.header("📊 SOC Overview")
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total Login Attempts", total_logins)
+col2.metric("Successful Logins", successful_logins)
+col3.metric("Failed Logins", failed_logins)
+
 
 
 # ==========================================================
@@ -318,6 +339,38 @@ else:
             "Last Failed Login"
         ]
     )
+
+    # ==========================================================
+# SOC OVERVIEW
+# ==========================================================
+
+st.divider()
+st.header("📊 SOC Overview")
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total Login Attempts", total_logins)
+
+col2.metric("Successful Logins", successful_logins)
+
+col3.metric("Failed Logins", failed_logins)
+
+col4.metric("IPs with Failed Logins", len(ip_counts))
+
+# ==========================================================
+# SOC OVERVIEW
+# ==========================================================
+
+st.divider()
+st.header("📊 SOC Overview")
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Total Login Attempts", total_logins)
+col2.metric("Successful Logins", successful_logins)
+col3.metric("Failed Logins", failed_logins)
+col4.metric("Suspicious IP Addresses", len(ip_counts))
+
 
 # ==========================================================
 # ATTACK PATTERN DETECTION
