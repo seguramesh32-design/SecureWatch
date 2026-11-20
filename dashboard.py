@@ -287,21 +287,6 @@ else:
 
 
 # ==========================================================
-# SOC OVERVIEW
-# ==========================================================
-
-st.divider()
-st.header("📊 SOC Overview")
-
-col1, col2, col3, col4 = st.columns(4)
-
-col1.metric("Total Login Attempts", total_logins)
-col2.metric("Successful Logins", successful_logins)
-col3.metric("Failed Logins", failed_logins)
-
-
-
-# ==========================================================
 # 8. FAILED LOGIN COUNTS BY IP
 # ==========================================================
 failed_df = df[
@@ -339,23 +324,6 @@ else:
             "Last Failed Login"
         ]
     )
-
-    # ==========================================================
-# SOC OVERVIEW
-# ==========================================================
-
-st.divider()
-st.header("📊 SOC Overview")
-
-col1, col2, col3, col4 = st.columns(4)
-
-col1.metric("Total Login Attempts", total_logins)
-
-col2.metric("Successful Logins", successful_logins)
-
-col3.metric("Failed Logins", failed_logins)
-
-col4.metric("IPs with Failed Logins", len(ip_counts))
 
 # ==========================================================
 # SOC OVERVIEW
