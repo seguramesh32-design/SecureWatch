@@ -771,7 +771,21 @@ else:
 
 st.divider()
 st.header("🚨 Security Alerts")
+# ==========================================================
+# THREAT LEVEL VISUALIZATION
+# ==========================================================
 
+st.divider()
+st.subheader("📊 Threat Level Distribution")
+
+if not ip_counts.empty:
+
+    severity_counts = ip_counts["Severity"].value_counts()
+
+    st.bar_chart(severity_counts)
+
+else:
+    st.info("No security alerts available.")
 if not ip_counts.empty:
         # Add IP Intelligence classification
     ip_counts["IP Type"] = (
