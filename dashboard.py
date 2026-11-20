@@ -103,6 +103,45 @@ st.set_page_config(
     layout="wide"
 )
 
+# ==========================================================
+# PROFESSIONAL SOC DASHBOARD STYLING
+# ==========================================================
+
+st.markdown("""
+<style>
+
+.stApp {
+    background-color: #0b1120;
+    color: #e2e8f0;
+}
+
+h1, h2, h3 {
+    color: #38bdf8 !important;
+}
+
+div[data-testid="stMetric"] {
+    background-color: #172033;
+    border: 1px solid #334155;
+    padding: 18px;
+    border-radius: 12px;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #94a3b8;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #38bdf8;
+}
+
+.stButton button {
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # ==========================================================
 # 2. LOAD PRIVATE SETTINGS FROM .env
