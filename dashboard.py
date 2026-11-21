@@ -236,6 +236,7 @@ st_autorefresh(
     interval=30000,
     key="securewatch_refresh"
 )
+st.success("🟢 LIVE MONITORING ACTIVE — Auto-refresh every 30 seconds")
 
 
 # ==========================================================
