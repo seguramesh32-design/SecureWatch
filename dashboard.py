@@ -749,6 +749,16 @@ st.subheader("📊 Threat Level Distribution")
 if not ip_counts.empty:
 
     severity_counts = ip_counts["Severity"].value_counts()
+    high_alerts = int((ip_counts["Severity"] == "HIGH").sum())
+    medium_alerts = int((ip_counts["Severity"] == "MEDIUM").sum())
+    low_alerts = int((ip_counts["Severity"] == "LOW").sum())
+    summary1, summary2, summary3 = st.columns(3)
+
+    summary1.metric("🔴 HIGH Alerts", high_alerts)
+
+    summary2.metric("🟠 MEDIUM Alerts", medium_alerts)
+
+    summary3.metric("🟢 LOW Alerts", low_alerts)
 
     st.bar_chart(severity_counts)
 
