@@ -716,7 +716,44 @@ st.bar_chart(
     x="Login Type",
     y="Count"
 )
+# ==========================================================
+# RECENT SECURITY ACTIVITY FEED
+# ==========================================================
 
+st.divider()
+st.subheader("🕒 Recent Security Activity Feed")
+
+if not timeline_df.empty:
+
+    recent_activity = timeline_df.copy()
+
+    recent_activity = recent_activity.sort_values(
+        by="login_time",
+        ascending=False
+    )
+
+    recent_activity["status"] = (
+        recent_activity["status"].astype(str).str.upper()
+    )
+
+    recent_activity = recent_activity.rename(
+        columns={
+            "ip_address": "IP Address",
+            "status": "Login Status",
+            "login_time": "Login Time"
+        }
+    )
+
+    st.dataframe(
+        recent_activity[
+            ["IP Address", "Login Status", "Login Time"]
+        ].head(20),
+        hide_index=True,
+        width="stretch"
+    )
+
+else:
+    st.info("No recent security activity available.")
 
 # ==========================================================
 # 14. FAILED LOGIN ATTEMPTS BY IP
