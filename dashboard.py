@@ -1019,3 +1019,71 @@ if st.button("Check IP Reputation", key="manual_ip_check"):
                 "Domain:",
                 reputation.get("domain") or "Unknown"
             )
+# ==========================================================
+# SOC INCIDENT INVESTIGATION
+# ==========================================================
+
+st.divider()
+st.header("🕵️ SOC Incident Investigation")
+
+if st.button("Investigate IP Login History", key="investigate_ip"):
+
+    if not manual_ip.strip():
+
+        st.warning("Please enter an IP address first.")
+
+    else:
+
+        try:
+
+            with psycopg2.connect(DATABASE_URL) as connection:
+
+                investigation_df = pd.read_sql_query(
+                    """
+                    SELECT ip_address, status, login_time
+                    FROM login_logs
+                    WHERE ip_address = %s
+                    ORDER BY login_time DESC;
+                    """,
+                    connection,
+                    params=(manual_ip.strip(),)
+                )
+
+            if not investigation_df.empty:
+
+                total_attempts = len(investigation_df)
+
+                failed_attempts = (
+                    investigation_df["status"]
+                    .astype(str)
+                    .str.lower() == "failed"
+                ).sum()
+
+                successful_attempts = (
+                    investigation_df["status"]
+                    .astype(str)
+                    .str.lower() == "success"
+                ).sum()
+
+                col1, col2, col3 = st.columns(3)
+
+                col1.metric("Total Attempts", total_attempts)
+                col2.metric("Failed Attempts", int(failed_attempts))
+                col3.metric("Successful Attempts", int(successful_attempts))
+
+                st.subheader("IP Login History")
+
+                st.dataframe(
+                    investigation_df,
+                    hide_index=True,
+                    width="stretch"
+                )
+
+            else:
+
+                st.info("No login history found for this IP.")
+
+        except Exception as e:
+
+            st.error("IP investigation failed.")
+            st.code(str(e))
