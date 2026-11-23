@@ -500,7 +500,35 @@ if not ip_counts.empty:
     ip_counts["AbuseIPDB Reports"] = reputation_reports
     ip_counts["IP Reputation"] = reputation_levels
     ip_counts["Country"] = reputation_countries
+# ==========================================================
+# IP ATTACK RISK SCORE
+# ==========================================================
 
+def calculate_risk_score(row):
+
+    failed_attempts = int(row["Failed Attempts"])
+
+    abuse_score = pd.to_numeric(
+        row["AbuseIPDB Score"],
+        errors="coerce"
+    )
+
+    if pd.isna(abuse_score):
+        abuse_score = 0
+
+    login_risk = min(failed_attempts * 5, 50)
+
+    reputation_risk = abuse_score * 0.5
+
+    total_risk = login_risk + reputation_risk
+
+    return min(round(total_risk), 100)
+
+
+ip_counts["Risk Score"] = ip_counts.apply(
+    calculate_risk_score,
+    axis=1
+)
 # ==========================================================
 # COUNTRY-WISE ATTACK ANALYSIS
 # ==========================================================
