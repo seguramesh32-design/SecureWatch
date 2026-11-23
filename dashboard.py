@@ -325,7 +325,33 @@ else:
             "Last Failed Login"
         ]
     )
+# ==========================================================
+# TOP 10 ATTACKING IP ADDRESSES
+# ==========================================================
 
+st.divider()
+st.header("🎯 Top 10 Attacking IP Addresses")
+
+if not ip_counts.empty:
+
+    top_attacking_ips = (
+        ip_counts
+        .sort_values(
+            by="Failed Attempts",
+            ascending=False
+        )
+        .head(10)
+    )
+
+    st.bar_chart(
+        top_attacking_ips,
+        x="IP Address",
+        y="Failed Attempts"
+    )
+
+else:
+
+    st.info("No failed login attacks found.")
 # ==========================================================
 # SOC OVERVIEW
 # ==========================================================
