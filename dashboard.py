@@ -879,6 +879,41 @@ if not ip_counts.empty:
         file_name="SecureWatch_Security_Report.csv",
         mime="text/csv"
     )
+    # ==========================================================
+# ATTACK SEVERITY RANKING
+# ==========================================================
+
+st.divider()
+st.subheader("🏆 Attack Severity Ranking")
+
+if not filtered_alerts.empty:
+
+    ranking_df = (
+        filtered_alerts
+        .sort_values(
+            by="Failed Attempts",
+            ascending=False
+        )
+        .head(10)
+        .reset_index(drop=True)
+    )
+
+    ranking_df.insert(
+        0,
+        "Rank",
+        range(1, len(ranking_df) + 1)
+    )
+
+    st.dataframe(
+        ranking_df[
+            ["Rank", "IP Address", "Failed Attempts", "Severity"]
+        ],
+        hide_index=True,
+        width="stretch"
+    )
+
+else:
+    st.info("No security risks available for ranking.")
 # ==========================================================
 # 16. FOOTER
 # ==========================================================
