@@ -530,6 +530,51 @@ ip_counts["Risk Score"] = ip_counts.apply(
     axis=1
 )
 # ==========================================================
+# RISK LEVEL CLASSIFICATION
+# ==========================================================
+
+def classify_risk(score):
+
+    if score >= 76:
+        return "CRITICAL"
+
+    elif score >= 51:
+        return "HIGH"
+
+    elif score >= 26:
+        return "MEDIUM"
+
+    else:
+        return "LOW"
+
+
+ip_counts["Risk Level"] = (
+    ip_counts["Risk Score"].apply(classify_risk)
+)
+# ==========================================================
+# OVERALL RISK DISTRIBUTION
+# ==========================================================
+
+st.divider()
+st.subheader("📊 Overall Risk Distribution")
+
+if not ip_counts.empty:
+
+    risk_counts = (
+        ip_counts["Risk Level"]
+        .value_counts()
+        .reindex(
+            ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
+            fill_value=0
+        )
+    )
+
+    st.bar_chart(risk_counts)
+
+else:
+
+    st.info("No risk data available.")
+# ==========================================================
 # COUNTRY-WISE ATTACK ANALYSIS
 # ==========================================================
 
@@ -606,6 +651,8 @@ if not ip_counts.empty:
                     "AbuseIPDB Score",
                     "AbuseIPDB Reports",
                     "Country"
+                    "Risk Score"
+                    "Risk Level"
                 ]
             ],
             hide_index=True,
