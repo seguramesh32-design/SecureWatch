@@ -743,6 +743,32 @@ st.bar_chart(
     y="Count"
 )
 # ==========================================================
+# HOURLY FAILED LOGIN TREND
+# ==========================================================
+
+st.divider()
+st.subheader("⏰ Hourly Failed Login Trend")
+
+if not failed_timeline.empty:
+
+    hourly_attacks = (
+        failed_timeline
+        .set_index("login_time")
+        .resample("h")
+        .size()
+        .reset_index(name="Failed Attempts")
+    )
+
+    st.line_chart(
+        hourly_attacks,
+        x="login_time",
+        y="Failed Attempts"
+    )
+
+else:
+
+    st.info("No failed login data available for hourly analysis.")
+# ==========================================================
 # RECENT SECURITY ACTIVITY FEED
 # ==========================================================
 
