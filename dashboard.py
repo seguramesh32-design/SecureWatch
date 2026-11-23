@@ -461,6 +461,7 @@ if not ip_counts.empty:
     reputation_scores = []
     reputation_reports = []
     reputation_levels = []
+    reputation_countries = []
 
     for ip in ip_counts["IP Address"]:
 
@@ -475,11 +476,14 @@ if not ip_counts.empty:
             reputation_scores.append("Unavailable")
             reputation_reports.append("Unavailable")
             reputation_levels.append("Unknown")
+            reputation_countries.append("Unknown")
 
         else:
 
             score = int(reputation.get("abuseConfidenceScore", 0))
             reports = int(reputation.get("totalReports", 0))
+            country = reputation.get("countryCode") or "Unknown"
+            reputation_countries.append(country)
 
             if score >= 75:
                 level = "HIGH"
@@ -495,7 +499,35 @@ if not ip_counts.empty:
     ip_counts["AbuseIPDB Score"] = reputation_scores
     ip_counts["AbuseIPDB Reports"] = reputation_reports
     ip_counts["IP Reputation"] = reputation_levels
+    ip_counts["Country"] = reputation_countries
 
+# ==========================================================
+# COUNTRY-WISE ATTACK ANALYSIS
+# ==========================================================
+
+st.divider()
+st.subheader("🌍 Country-wise Attack Analysis")
+
+if not ip_counts.empty:
+
+    country_attacks = (
+        ip_counts.groupby("Country")["Failed Attempts"]
+        .sum()
+        .reset_index()
+        .sort_values(
+            by="Failed Attempts",
+            ascending=False
+        )
+    )
+
+    st.bar_chart(
+        country_attacks,
+        x="Country",
+        y="Failed Attempts"
+    )
+
+else:
+    st.info("No country-wise attack data available.")
 # ==========================================================
 # THREAT INTELLIGENCE SUMMARY
 # ==========================================================
