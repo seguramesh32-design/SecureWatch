@@ -555,6 +555,40 @@ col1.metric("Total IPs Checked", total_ips_checked)
 col2.metric("HIGH Risk", high_risk_ips)
 col3.metric("MEDIUM Risk", medium_risk_ips)
 col4.metric("LOW Risk", low_risk_ips)
+# ==========================================================
+# HIGH-RISK IP INVESTIGATION LIST
+# ==========================================================
+
+st.divider()
+st.subheader("🚨 High-Risk IP Investigation List")
+
+if not ip_counts.empty:
+
+    high_risk_df = ip_counts[
+        ip_counts["IP Reputation"] == "HIGH"
+    ].copy()
+
+    if not high_risk_df.empty:
+
+        st.dataframe(
+            high_risk_df[
+                [
+                    "IP Address",
+                    "Failed Attempts",
+                    "AbuseIPDB Score",
+                    "AbuseIPDB Reports",
+                    "Country"
+                ]
+            ],
+            hide_index=True,
+            width="stretch"
+        )
+
+    else:
+        st.success("No HIGH-risk IP addresses found.")
+
+else:
+    st.info("No IP information available.")
 
 st.subheader("IP Reputation Distribution")
 
