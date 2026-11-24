@@ -508,11 +508,6 @@ code {
     color: #e2e8f0 !important;
     font-size: 13px !important;
 }
-
-</style>
-
-
-
 .stApp {
     background-color: #0b1120;
     color: #e2e8f0;
@@ -593,7 +588,6 @@ footer p {
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================================================
 # 2. LOAD PRIVATE SETTINGS FROM .env
