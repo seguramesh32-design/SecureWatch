@@ -1457,3 +1457,43 @@ if not ip_counts.empty:
 else:
 
     st.info("No IP addresses available for investigation.")
+    # ==========================================================
+# CRITICAL THREAT ALERT NOTIFICATION
+# ==========================================================
+
+st.divider()
+st.subheader("🚨 Critical Threat Alert Notification")
+
+if not ip_counts.empty:
+
+    critical_ips = ip_counts[
+        ip_counts["Risk Level"] == "CRITICAL"
+    ]
+
+    if not critical_ips.empty:
+
+        st.error(
+            f"⚠️ {len(critical_ips)} CRITICAL threat(s) detected!"
+        )
+
+        st.dataframe(
+            critical_ips[
+                [
+                    "IP Address",
+                    "Failed Attempts",
+                    "AbuseIPDB Score",
+                    "Risk Score",
+                    "Risk Level"
+                ]
+            ],
+            hide_index=True,
+            width="stretch"
+        )
+
+    else:
+
+        st.success("No CRITICAL threats detected.")
+
+else:
+
+    st.info("No IP data available.")
