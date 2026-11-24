@@ -223,6 +223,30 @@ hr {
     border: 1px solid #3b82f6;
     border-radius: 10px;
 }
+/* Professional Input Fields */
+.stTextInput input,
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"] {
+    background-color: #172554 !important;
+    color: #ffffff !important;
+    border: 1px solid #3b82f6 !important;
+    border-radius: 8px !important;
+}
+
+/* Input Focus Effect */
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+    border: 1px solid #38bdf8 !important;
+    box-shadow: 0 0 8px #2563eb !important;
+}
+
+/* Input Labels */
+.stTextInput label,
+.stTextArea label,
+.stSelectbox label {
+    color: #e2e8f0 !important;
+    font-weight: 600 !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
