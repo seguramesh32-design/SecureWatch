@@ -378,6 +378,34 @@ hr {
     padding: 15px;
 }
 
+/* ==================================================
+   PROFESSIONAL CHECKBOX AND RADIO DESIGN
+   ================================================== */
+
+/* Checkbox Labels */
+[data-testid="stCheckbox"] label {
+    color: #e2e8f0 !important;
+    font-weight: 600 !important;
+}
+
+/* Radio Button Labels */
+[data-testid="stRadio"] label {
+    color: #e2e8f0 !important;
+    font-weight: 600 !important;
+}
+
+/* Checkbox and Radio Spacing */
+[data-testid="stCheckbox"],
+[data-testid="stRadio"] {
+    margin-bottom: 10px;
+}
+
+/* Selection Control Hover */
+[data-testid="stCheckbox"] label:hover,
+[data-testid="stRadio"] label:hover {
+    color: #38bdf8 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
