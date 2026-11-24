@@ -295,6 +295,33 @@ hr {
 [data-testid="stElementContainer"] {
     border-radius: 10px;
 }
+/* ==================================================
+   PROFESSIONAL SECTION HEADINGS
+   ================================================== */
+
+/* Section Headings */
+h2, h3 {
+    color: #38bdf8 !important;
+    border-left: 4px solid #2563eb;
+    padding-left: 12px;
+    margin-top: 20px;
+}
+
+/* Main Dashboard Title */
+h1 {
+    color: #38bdf8 !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px;
+}
+
+/* Section Divider */
+hr {
+    border: none;
+    border-top: 1px solid #2563eb;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
 
 </style>
 """, unsafe_allow_html=True)
