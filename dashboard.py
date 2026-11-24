@@ -247,6 +247,54 @@ hr {
     color: #e2e8f0 !important;
     font-weight: 600 !important;
 }
+/* ==================================================
+   PROFESSIONAL TABLE DESIGN
+   ================================================== */
+
+/* Table Container */
+[data-testid="stDataFrame"] {
+    background-color: #111827 !important;
+    border: 1px solid #2563eb !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+/* Table Header */
+[data-testid="stDataFrame"] th {
+    background-color: #1e3a8a !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+}
+
+/* Table Cells */
+[data-testid="stDataFrame"] td {
+    color: #e2e8f0 !important;
+    background-color: #111827 !important;
+}
+
+/* Table Hover */
+[data-testid="stDataFrame"] tr:hover td {
+    background-color: #1e293b !important;
+}
+/* ==================================================
+   PROFESSIONAL GRAPH DESIGN
+   ================================================== */
+
+/* Chart Container */
+[data-testid="stVegaLiteChart"],
+[data-testid="stArrowVegaLiteChart"],
+[data-testid="stPyplot"],
+[data-testid="stPlotlyChart"] {
+    background-color: #111827 !important;
+    border: 1px solid #2563eb !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+}
+
+/* Graph Section Spacing */
+[data-testid="stElementContainer"] {
+    border-radius: 10px;
+}
 
 </style>
 """, unsafe_allow_html=True)
