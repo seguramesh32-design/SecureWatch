@@ -196,6 +196,33 @@ hr {
     border: 1px solid #3b82f6;
     border-radius: 8px;
 }
+/* Success Messages */
+[data-testid="stAlert"][kind="success"] {
+    background-color: #064e3b;
+    border: 1px solid #10b981;
+    border-radius: 10px;
+}
+
+/* Warning Messages */
+[data-testid="stAlert"][kind="warning"] {
+    background-color: #78350f;
+    border: 1px solid #f59e0b;
+    border-radius: 10px;
+}
+
+/* Error Messages */
+[data-testid="stAlert"][kind="error"] {
+    background-color: #7f1d1d;
+    border: 1px solid #ef4444;
+    border-radius: 10px;
+}
+
+/* Info Messages */
+[data-testid="stAlert"][kind="info"] {
+    background-color: #172554;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+}
 
 </style>
 """, unsafe_allow_html=True)
