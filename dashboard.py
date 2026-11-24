@@ -1601,3 +1601,47 @@ if not ip_counts.empty:
 else:
 
     st.info("No risk data available.")
+    # ==========================================================
+# SECURITY EVENT SEARCH
+# ==========================================================
+
+st.divider()
+st.subheader("🔎 Security Event Search")
+
+if not ip_counts.empty:
+
+    search_ip = st.text_input(
+        "Enter IP Address to Search"
+    )
+
+    if search_ip.strip():
+
+        search_results = ip_counts[
+            ip_counts["IP Address"]
+            .astype(str)
+            .str.contains(
+                search_ip.strip(),
+                case=False,
+                na=False
+            )
+        ]
+
+        if not search_results.empty:
+
+            st.success(
+                f"{len(search_results)} matching result(s) found."
+            )
+
+            st.dataframe(
+                search_results,
+                hide_index=True,
+                width="stretch"
+            )
+
+        else:
+
+            st.warning("No matching IP address found.")
+
+else:
+
+    st.info("No security events available.")
