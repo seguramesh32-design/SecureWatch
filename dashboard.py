@@ -1370,3 +1370,50 @@ if not ip_counts.empty:
 else:
 
     st.info("No security recommendations available.")
+    # ==========================================================
+# SOC INCIDENT RESPONSE PLAYBOOK
+# ==========================================================
+
+st.divider()
+st.subheader("📋 SOC Incident Response Playbook")
+
+selected_priority = st.selectbox(
+    "Select Incident Priority",
+    ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+)
+
+response_steps = {
+    "CRITICAL": [
+        "Identify the suspicious IP address.",
+        "Block the IP using firewall rules after verification.",
+        "Check related login activities.",
+        "Investigate possible account compromise.",
+        "Record the incident for future analysis."
+    ],
+
+    "HIGH": [
+        "Investigate the suspicious IP address.",
+        "Review failed login attempts.",
+        "Check IP reputation.",
+        "Monitor further activity.",
+        "Record investigation findings."
+    ],
+
+    "MEDIUM": [
+        "Review login activity.",
+        "Monitor repeated failed attempts.",
+        "Check IP reputation.",
+        "Record suspicious activity."
+    ],
+
+    "LOW": [
+        "Continue normal monitoring.",
+        "Review unusual login activity.",
+        "Record important observations."
+    ]
+}
+
+st.write("Recommended response steps:")
+
+for step in response_steps[selected_priority]:
+    st.write("☐", step)
