@@ -352,6 +352,32 @@ hr {
     box-shadow: 0 0 10px #2563eb;
     color: white !important;
 }
+
+/* ==================================================
+   PROFESSIONAL EXPANDER DESIGN
+   ================================================== */
+
+/* Expander Container */
+[data-testid="stExpander"] {
+    background-color: #111827 !important;
+    border: 1px solid #2563eb !important;
+    border-radius: 12px !important;
+    margin-bottom: 12px;
+}
+
+/* Expander Header */
+[data-testid="stExpander"] summary {
+    color: #38bdf8 !important;
+    font-weight: bold !important;
+}
+
+/* Expander Content */
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    background-color: #0f172a !important;
+    border-top: 1px solid #334155;
+    padding: 15px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
