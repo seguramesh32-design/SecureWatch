@@ -1337,3 +1337,36 @@ if st.button("Investigate IP Login History", key="investigate_ip"):
 
             st.error("IP investigation failed.")
             st.code(str(e))
+            # ==========================================================
+# AUTOMATED SECURITY RECOMMENDATIONS
+# ==========================================================
+
+st.divider()
+st.subheader("🛡️ Automated Security Recommendations")
+
+if not ip_counts.empty:
+
+    recommendations = {
+        "CRITICAL": "Block IP immediately and investigate.",
+        "HIGH": "Investigate IP and monitor activity.",
+        "MEDIUM": "Monitor failed login attempts.",
+        "LOW": "Continue normal security monitoring."
+    }
+
+    recommendation_df = ip_counts[
+        ["IP Address", "Failed Attempts", "Risk Score", "Risk Level"]
+    ].copy()
+
+    recommendation_df["Recommended Action"] = (
+        recommendation_df["Risk Level"].map(recommendations)
+    )
+
+    st.dataframe(
+        recommendation_df,
+        hide_index=True,
+        width="stretch"
+    )
+
+else:
+
+    st.info("No security recommendations available.")
