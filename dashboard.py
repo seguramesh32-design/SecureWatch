@@ -650,9 +650,9 @@ if not ip_counts.empty:
                     "Failed Attempts",
                     "AbuseIPDB Score",
                     "AbuseIPDB Reports",
-                    "Country"
-                    "Risk Score"
-                    "Risk Level"
+                    "Country",
+                    "Risk Score",
+                    "Risk Level",
                 ]
             ],
             hide_index=True,
@@ -681,7 +681,29 @@ st.bar_chart(
     x="Threat Level",
     y="IP Count"
 )
+# ==========================================================
+# SECURITY INCIDENT PRIORITY DASHBOARD
+# ==========================================================
 
+st.divider()
+st.subheader("🚨 Security Incident Priority Dashboard")
+
+if not ip_counts.empty:
+
+    priority_counts = (
+        ip_counts["Risk Level"]
+        .value_counts()
+        .reindex(
+            ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
+            fill_value=0
+        )
+    )
+
+    st.bar_chart(priority_counts)
+
+else:
+
+    st.info("No security incidents available.")
 # ==========================================================
 # SAVE SECURITY ALERTS INTO POSTGRESQL
 # =========================================================
