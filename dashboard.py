@@ -406,6 +406,38 @@ hr {
     color: #38bdf8 !important;
 }
 
+/* ==================================================
+   PROFESSIONAL TABS DESIGN
+   ================================================== */
+
+/* Tab Navigation */
+.stTabs [data-baseweb="tab-list"] {
+    background-color: #111827;
+    border-radius: 10px;
+    padding: 6px;
+    gap: 8px;
+}
+
+/* Individual Tabs */
+.stTabs [data-baseweb="tab"] {
+    background-color: #172554;
+    color: #e2e8f0 !important;
+    border-radius: 8px;
+    padding: 10px 18px;
+}
+
+/* Selected Tab */
+.stTabs [aria-selected="true"] {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+/* Tab Hover */
+.stTabs [data-baseweb="tab"]:hover {
+    background-color: #1e40af;
+    color: #ffffff !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
