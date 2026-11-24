@@ -322,7 +322,36 @@ hr {
     margin-top: 25px;
     margin-bottom: 25px;
 }
+/* ==================================================
+   PROFESSIONAL DOWNLOAD BUTTONS
+   ================================================== */
 
+/* Download Button */
+.stDownloadButton > button {
+    background: linear-gradient(
+        90deg,
+        #1d4ed8,
+        #2563eb
+    );
+    color: white !important;
+    border: 1px solid #38bdf8;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+/* Download Button Hover */
+.stDownloadButton > button:hover {
+    background: linear-gradient(
+        90deg,
+        #0ea5e9,
+        #2563eb
+    );
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 10px #2563eb;
+    color: white !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
