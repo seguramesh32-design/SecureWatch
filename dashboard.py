@@ -1497,3 +1497,107 @@ if not ip_counts.empty:
 else:
 
     st.info("No IP data available.")
+    # ==========================================================
+# SECURITY INCIDENT STATUS TRACKER
+# ==========================================================
+
+st.divider()
+st.subheader("📌 Security Incident Status Tracker")
+
+if not ip_counts.empty:
+
+    incident_tracker = ip_counts[
+        [
+            "IP Address",
+            "Failed Attempts",
+            "Risk Score",
+            "Risk Level"
+        ]
+    ].copy()
+
+    incident_tracker["Incident Status"] = "OPEN"
+
+    updated_tracker = st.data_editor(
+        incident_tracker,
+        hide_index=True,
+        width="stretch",
+        disabled=[
+            "IP Address",
+            "Failed Attempts",
+            "Risk Score",
+            "Risk Level"
+        ],
+        column_config={
+            "Incident Status": st.column_config.SelectboxColumn(
+                "Incident Status",
+                options=[
+                    "OPEN",
+                    "INVESTIGATING",
+                    "RESOLVED"
+                ],
+                required=True
+            )
+        }
+    )
+
+    st.download_button(
+        "Download Incident Status Report",
+        data=updated_tracker.to_csv(index=False),
+        file_name="SecureWatch_Incident_Status.csv",
+        mime="text/csv"
+    )
+
+else:
+
+    st.info("No incidents available to track.")
+    # ==========================================================
+# RISK SCORE BREAKDOWN
+# ==========================================================
+
+st.divider()
+st.subheader("🔍 Risk Score Breakdown")
+
+if not ip_counts.empty:
+
+    risk_breakdown = ip_counts[
+        [
+            "IP Address",
+            "Failed Attempts",
+            "AbuseIPDB Score",
+            "Risk Score",
+            "Risk Level"
+        ]
+    ].copy()
+
+    risk_breakdown["Login Risk"] = (
+        risk_breakdown["Failed Attempts"] * 5
+    ).clip(upper=50)
+
+    abuse_scores = pd.to_numeric(
+        risk_breakdown["AbuseIPDB Score"],
+        errors="coerce"
+    ).fillna(0)
+
+    risk_breakdown["Reputation Risk"] = abuse_scores * 0.5
+
+    st.dataframe(
+        risk_breakdown[
+            [
+                "IP Address",
+                "Login Risk",
+                "Reputation Risk",
+                "Risk Score",
+                "Risk Level"
+            ]
+        ],
+        hide_index=True,
+        width="stretch"
+    )
+
+    st.caption(
+        "Risk Score = Login Risk + Reputation Risk (maximum 100)."
+    )
+
+else:
+
+    st.info("No risk data available.")
