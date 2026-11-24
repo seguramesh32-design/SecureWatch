@@ -438,15 +438,80 @@ hr {
     color: #ffffff !important;
 }
 
+/* ==================================================
+   PROFESSIONAL CODE BLOCK DESIGN
+   ================================================== */
+
+/* Code Block */
+[data-testid="stCode"] {
+    background-color: #111827 !important;
+    border: 1px solid #2563eb !important;
+    border-radius: 10px !important;
+    padding: 12px !important;
+}
+
+/* Inline Code */
+code {
+    background-color: #1e293b !important;
+    color: #38bdf8 !important;
+    border-radius: 5px !important;
+    padding: 3px 6px !important;
+}
+
+/* Status Text */
+[data-testid="stMarkdownContainer"] strong {
+    color: #38bdf8;
+}
+
+/* ==================================================
+   PROFESSIONAL PROGRESS BAR DESIGN
+   ================================================== */
+
+/* Progress Bar Container */
+[data-testid="stProgress"] {
+    background-color: #172554 !important;
+    border-radius: 10px !important;
+    padding: 5px !important;
+}
+
+/* Progress Bar Fill */
+[data-testid="stProgress"] > div > div > div {
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #38bdf8
+    ) !important;
+    border-radius: 10px !important;
+}
+
+/* Progress Bar Height */
+[data-testid="stProgress"] {
+    height: 18px;
+}
+
+/* ==================================================
+   PROFESSIONAL TOOLTIP DESIGN
+   ================================================== */
+
+/* Tooltip Styling */
+[data-testid="stTooltip"] {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border: 1px solid #38bdf8 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    box-shadow: 0 0 10px #2563eb;
+}
+
+/* Tooltip Text */
+[data-testid="stTooltip"] p {
+    color: #e2e8f0 !important;
+    font-size: 13px !important;
+}
+
 </style>
-""", unsafe_allow_html=True)
 
-# ==========================================================
-# PROFESSIONAL SOC DASHBOARD STYLING
-# ==========================================================
 
-st.markdown("""
-<style>
 
 .stApp {
     background-color: #0b1120;
@@ -475,6 +540,55 @@ div[data-testid="stMetricValue"] {
 .stButton button {
     border-radius: 8px;
     font-weight: bold;
+}
+
+/* ==================================================
+   PROFESSIONAL FOOTER DESIGN
+   ================================================== */
+
+/* Footer Container */
+footer {
+    background-color: #111827 !important;
+    border-top: 1px solid #2563eb !important;
+}
+
+/* Footer Text */
+footer p {
+    color: #94a3b8 !important;
+    font-size: 13px !important;
+}
+
+/* Hide Streamlit Branding */
+#MainMenu {
+    visibility: hidden;
+}
+
+/* ==================================================
+   PROFESSIONAL SCROLLBAR DESIGN
+   ================================================== */
+
+/* Scrollbar Width */
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+    background: #0b1120;
+    border-radius: 10px;
+}
+
+/* Scrollbar Thumb */
+::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 10px;
+    border: 2px solid #0b1120;
+}
+
+/* Scrollbar Hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
 }
 
 </style>
