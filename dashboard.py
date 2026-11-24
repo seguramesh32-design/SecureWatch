@@ -166,6 +166,36 @@ h1, h2, h3 {
 hr {
     border-color: #334155;
 }
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    background: linear-gradient(
+        180deg,
+        #111827,
+        #172554
+    );
+    border-right: 1px solid #2563eb;
+}
+
+/* Sidebar Text */
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] p {
+    color: #e2e8f0 !important;
+}
+
+/* Sidebar Navigation */
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {
+    color: #38bdf8 !important;
+}
+
+/* Sidebar Input Fields */
+[data-testid="stSidebar"] input {
+    background-color: #1e293b;
+    color: white;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+}
 
 </style>
 """, unsafe_allow_html=True)
