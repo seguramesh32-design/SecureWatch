@@ -102,6 +102,73 @@ st.set_page_config(
     page_icon="🛡️",
     layout="wide"
 )
+# ==========================================================
+# SECUREWATCH PROFESSIONAL CSS THEME
+# ==========================================================
+
+st.markdown("""
+<style>
+
+/* Main Dashboard Background */
+.stApp {
+    background-color: #0b1120;
+    color: #e2e8f0;
+}
+
+/* Main Headings */
+h1, h2, h3 {
+    color: #38bdf8 !important;
+    font-weight: 700 !important;
+}
+
+/* Metric Cards */
+[data-testid="stMetric"] {
+    background-color: #172554;
+    border: 1px solid #2563eb;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Metric Values */
+[data-testid="stMetricValue"] {
+    color: #38bdf8;
+    font-weight: bold;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 8px 18px;
+    font-weight: bold;
+}
+
+.stButton > button:hover {
+    background-color: #1d4ed8;
+    color: white;
+    border: 1px solid #38bdf8;
+}
+
+/* Data Tables */
+[data-testid="stDataFrame"] {
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #111827;
+}
+
+/* Dividers */
+hr {
+    border-color: #334155;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ==========================================================
 # PROFESSIONAL SOC DASHBOARD STYLING
