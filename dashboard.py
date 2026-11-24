@@ -1417,3 +1417,43 @@ st.write("Recommended response steps:")
 
 for step in response_steps[selected_priority]:
     st.write("☐", step)
+    # ==========================================================
+# SECURITY ANALYST INVESTIGATION NOTES
+# ==========================================================
+
+st.divider()
+st.subheader("📝 Security Analyst Investigation Notes")
+
+if not ip_counts.empty:
+
+    selected_ip = st.selectbox(
+        "Select IP Address",
+        ip_counts["IP Address"].astype(str).unique()
+    )
+
+    analyst_notes = st.text_area(
+        "Enter Investigation Notes",
+        placeholder="Write your investigation observations here..."
+    )
+
+    if analyst_notes.strip():
+
+        report_content = (
+            f"SecureWatch Investigation Report\n"
+            f"IP Address: {selected_ip}\n"
+            f"Investigation Notes:\n{analyst_notes}\n"
+        )
+
+        st.download_button(
+            label="Download Investigation Notes",
+            data=report_content,
+            file_name=f"Investigation_{selected_ip}.txt",
+            mime="text/plain"
+        )
+
+    else:
+        st.info("Enter investigation notes to download the report.")
+
+else:
+
+    st.info("No IP addresses available for investigation.")
