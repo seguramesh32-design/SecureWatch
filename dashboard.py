@@ -1645,3 +1645,96 @@ if not ip_counts.empty:
 else:
 
     st.info("No security events available.")
+    # ==========================================================
+# SECURITY STATISTICS SUMMARY
+# ==========================================================
+
+st.divider()
+st.subheader("📈 Security Statistics Summary")
+
+if not ip_counts.empty:
+
+    total_suspicious_ips = len(ip_counts)
+
+    total_critical = (
+        ip_counts["Risk Level"] == "CRITICAL"
+    ).sum()
+
+    average_risk = round(
+        ip_counts["Risk Score"].mean(), 2
+    )
+
+    highest_risk = ip_counts["Risk Score"].max()
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric(
+        "Suspicious IPs",
+        total_suspicious_ips
+    )
+
+    col2.metric(
+        "Critical Incidents",
+        total_critical
+    )
+
+    col3.metric(
+        "Average Risk Score",
+        average_risk
+    )
+
+    col4.metric(
+        "Highest Risk Score",
+        highest_risk
+    )
+
+else:
+
+    st.info("No security statistics available.")
+    # ==========================================================
+# SECURITY SYSTEM HEALTH MONITOR
+# ==========================================================
+
+st.divider()
+st.subheader("🖥️ Security System Health Monitor")
+
+# PostgreSQL Status
+try:
+
+    with psycopg2.connect(
+        st.secrets["DATABASE_URL"]
+    ) as connection:
+
+        st.success("🟢 PostgreSQL: Connected")
+
+except Exception:
+
+    st.error("🔴 PostgreSQL: Connection Failed")
+
+# AbuseIPDB Status
+if os.getenv("ABUSEIPDB_API_KEY") or st.secrets.get(
+    "ABUSEIPDB_API_KEY"
+):
+
+    st.success("🟢 AbuseIPDB: API Key Configured")
+
+else:
+
+    st.warning("🟡 AbuseIPDB: API Key Missing")
+
+# Email Status
+email_address = os.getenv("EMAIL_ADDRESS") or st.secrets.get(
+    "EMAIL_ADDRESS"
+)
+
+email_password = os.getenv("EMAIL_PASSWORD") or st.secrets.get(
+    "EMAIL_PASSWORD"
+)
+
+if email_address and email_password:
+
+    st.success("🟢 Email Alerts: Configured")
+
+else:
+
+    st.warning("🟡 Email Alerts: Not Configured")
