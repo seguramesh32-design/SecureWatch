@@ -595,8 +595,7 @@ footer p {
 
 folder = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(folder, ".env")
-print("ENV PATH:", env_path)
-print("ENV FILE EXISTS:", os.path.exists(env_path))
+
 try:
     env_data = dict(st.secrets)
 except Exception:
@@ -607,7 +606,7 @@ EMAIL_PASSWORD = env_data.get("EMAIL_PASSWORD")
 ALERT_EMAIL = env_data.get("ALERT_EMAIL")
 DB_PASSWORD = env_data.get("DB_PASSWORD")
 ABUSEIPDB_API_KEY = env_data.get("ABUSEIPDB_API_KEY")
-print("AbuseIPDB API key loaded:", bool(ABUSEIPDB_API_KEY))
+
 st.title("🛡️ SecureWatch")
 
 
